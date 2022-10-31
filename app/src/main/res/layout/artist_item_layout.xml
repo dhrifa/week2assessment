@@ -1,57 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_margin="4dp"
+    app:cardCornerRadius="10dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="4dp">
 
         <ImageView
             android:id="@+id/image_view_artist"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf ="parent"
+            android:layout_height="0dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
             app:layout_constraintStart_toStartOf="parent"
-            tools:src="@drawable/ic_launcher_background"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_launcher_background" />
 
         <TextView
             android:id="@+id/tv_collection_artist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Rock music"
-            app:layout_constraintTop_toTopOf="@+id/image_view_artist"
+            android:layout_marginBottom="10dp"
+            android:paddingStart="8dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tv_price"
             app:layout_constraintStart_toEndOf="@+id/image_view_artist"
-            app:layout_constraintEnd_toStartOf="@+id/tv_price"/>
+            app:layout_constraintTop_toTopOf="@+id/image_view_artist"
+            tools:text="rock" />
 
         <TextView
             android:id="@+id/tv_name_artist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Rock music"
-            app:layout_constraintTop_toBottomOf="@+id/tv_collection_artist"
+            android:layout_marginTop="10dp"
+            android:paddingStart="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/image_view_artist"
+            app:layout_constraintEnd_toStartOf="@+id/tv_price"
             app:layout_constraintStart_toEndOf="@+id/image_view_artist"
-            app:layout_constraintEnd_toStartOf="@+id/tv_price"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_collection_artist"
+            tools:text="Rock music" />
 
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Rock music"
-            app:layout_constraintTop_toTopOf="@+id/image_view_artist"
-            app:layout_constraintBottom_toBottomOf="@+id/image_view_artist"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            tools:text="Rock music"
+            app:layout_constraintBottom_toTopOf="@id/ib_play_music"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/image_view_artist" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <ImageButton
+            android:id="@+id/ib_play_music"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="this is a test rock"
-            app:layout_constraintTop_toBottomOf="@+id/image_view_artist"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="@id/image_view_artist"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_name_artist"
+            android:src="@drawable/stop_play"
+            android:background="@color/white"
+            android:visibility="gone"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

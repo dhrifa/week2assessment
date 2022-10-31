@@ -15,9 +15,9 @@ interface ArtistService {
 
     fun getArtistsByFilter(
         @Query("term") termArtist: String,
-//        @Query("amp;media") mediaType: String = "music",
-//        @Query("amp;entity") entityResult: String = "song",
-//        @Query("amp;limit") limitResult: Int = 50
+        @Query("amp;media") mediaType: String = "music",
+        @Query("amp;entity") entityResult: String = "song",
+        @Query("amp;limit") limitResult: Int = 50
     ): Call<ArtistResponse>
 
 

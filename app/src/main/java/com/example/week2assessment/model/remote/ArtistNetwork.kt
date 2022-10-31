@@ -15,7 +15,7 @@ object ArtistNetwork {
 //        search?term=rock&amp;media=music&amp;entity=song&amp;limit=50
 
     const val BASE_URL = "https://itunes.apple.com/"
-    const val ENDPOINT = "search?amp;media=music&amp;entity=song&amp;limit=50"// "search"
+    const val ENDPOINT = "search"//?amp;media=music&amp;entity=song&amp;limit=50"// "search"
 
     val artistService: ArtistService by lazy {
         initRetrofit().create(ArtistService::class.java)

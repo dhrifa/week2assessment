@@ -14,5 +14,6 @@ data class ArtistItem (
     val artistName: String,
     val collectionName: String,
     val artworkUrl60: String,
-    val trackPrice: Float
+    val trackPrice: Float,
+    val previewUrl: String
 ):Parcelable

@@ -6,86 +6,67 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Toolbar
-        android:id="@+id/toolbar"
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-        <ImageButton
-            android:id="@+id/ib_rock_tab"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_rock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tooltipText="Rock"
-            android:src="@drawable/ic_action_rock"
-            android:background="@drawable/ic_action_rock" />
-        <ImageButton
-            android:id="@+id/ib_classic_tab"
+            android:icon="@drawable/ic_action_rock"
+            android:text="@string/rockText" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_classic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_classic"
-            android:background="@drawable/ic_action_classic"/>
-        <ImageButton
-            android:id="@+id/ib_pop_tab"
+            android:icon="@drawable/ic_action_classic"
+            android:text="@string/classic_text" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_pop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_pop"
-            android:background="@drawable/ic_action_pop"/>
+            android:icon="@drawable/ic_action_pop"
+            android:text="@string/pop_text" />
 
-    </Toolbar>
+    </com.google.android.material.tabs.TabLayout>
 
-
-    <androidx.viewpager.widget.ViewPager
+<!--<androidx.viewpager.widget.ViewPager-->
+<!--    android:id="@+id/vp_pager"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintBottom_toBottomOf="@id/tab_layout_items">-->
+    <FrameLayout
+        android:id="@+id/display_classic_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout_items"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_action_rock"
-                android:text="Rock"
-                />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_action_classic"
-                android:text="Classic" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_action_pop"
-                android:text="Pop" />
-        </com.google.android.material.tabs.TabLayout>
-    </androidx.viewpager.widget.ViewPager>
-
-
-
-    <fragment
-        android:id="@+id/fragment_search_static"
-        android:name ="com.example.week2assessment.view.RockFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout_items" />
 
     <FrameLayout
-        android:id="@+id/display_rock_container"
+        android:id="@+id/display_pop_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_search_static"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout_items" />
+
+
+
+        <FrameLayout
+            android:id="@+id/display_rock_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout_items">
+
+        </FrameLayout>
+<!--</androidx.viewpager.widget.ViewPager>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
