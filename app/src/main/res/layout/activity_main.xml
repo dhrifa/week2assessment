@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -37,36 +38,29 @@
 
     </com.google.android.material.tabs.TabLayout>
 
-<!--<androidx.viewpager.widget.ViewPager-->
-<!--    android:id="@+id/vp_pager"-->
-<!--    android:layout_width="wrap_content"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    app:layout_constraintStart_toStartOf="parent"-->
-<!--    app:layout_constraintBottom_toBottomOf="@id/tab_layout_items">-->
-    <FrameLayout
-        android:id="@+id/display_classic_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tab_layout_items" />
-
-    <FrameLayout
-        android:id="@+id/display_pop_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tab_layout_items" />
+<androidx.viewpager.widget.ViewPager
+    android:id="@+id/vp_pager"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toBottomOf="@id/tab_layout_items"/>
 
 
-
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+  android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/tab_layout_items">
         <FrameLayout
             android:id="@+id/display_rock_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tab_layout_items">
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout_items"
+            android:visibility="visible"/>
 
-        </FrameLayout>
-<!--</androidx.viewpager.widget.ViewPager>-->
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.viewpager.widget.ViewPager
 import com.example.week2assessment.model.remote.ArtistNetwork
 import com.example.week2assessment.model.remote.ArtistResponse
 //import com.example.week2assessment.view.ClassicFragment
@@ -20,6 +22,8 @@ private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity(), ISearchArtist {
     private lateinit var tabLayoutItems: TabLayout
+    private lateinit var refreshLayout: SwipeRefreshLayout
+    private lateinit var viewPager: ViewPager
 
     private var termRock = "rock"
     private var termClassic = "classick"
@@ -31,29 +35,28 @@ class MainActivity : AppCompatActivity(), ISearchArtist {
         initView()
         search(termRock)
         Log.d(this.localClassName, "onCreate: ")
-
     }
 
 
     private fun initView() {
+        viewPager = findViewById(R.id.vp_pager)
         tabLayoutItems = findViewById(R.id.tab_layout_items)
+        refreshLayout = findViewById(R.id.swipeRefreshLayout)
+
+        refreshLayout.setOnRefreshListener {
+            getMusic(tabLayoutItems.selectedTabPosition)
+            refreshLayout.isRefreshing = false
+        }
+        //setupViewPager(viewPager)
+
+        // If we dont use setupWithViewPager() method then
+        // tabs are not used or shown when activity opened
+        tabLayoutItems.setupWithViewPager(viewPager)
 
         tabLayoutItems.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: Tab?) {
-               // tab?.icon = getDrawable(R.drawable.ic_launcher_background)
-
-                when (tab?.position) {
-                    0 -> {
-                        search(termRock)
-                    }
-                    1 -> {
-                        search(termClassic)
-                    }
-                    2 -> {
-                        search(termPop)
-                    }
-                }
-
+                // tab?.icon = getDrawable(R.drawable.ic_launcher_background)
+                getMusic(tab?.position)
             }
 
             override fun onTabUnselected(tab: Tab?) {}
@@ -61,6 +64,21 @@ class MainActivity : AppCompatActivity(), ISearchArtist {
             override fun onTabReselected(tab: Tab?) {}
         })
 
+    }
+
+    private fun getMusic(tab: Int?) {
+        when (tab) {
+            0 -> {
+                search(termRock)
+                //Toast.makeText(tabLayoutItems.context, tab.text, Toast.LENGTH_SHORT).show()
+            }
+            1 -> {
+                search(termClassic)
+            }
+            2 -> {
+                search(termPop)
+            }
+        }
     }
 
     override fun search(term: String) {
@@ -93,16 +111,12 @@ class MainActivity : AppCompatActivity(), ISearchArtist {
     }
 
     private fun createDisplayResponse(body: ArtistResponse?, term: String) {
-
-
         body?.let {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.display_rock_container, RockFragment.newInstance(it,term))
+//                .replace(R.id.vp_pager, RockFragment.newInstance(it,term))
+                .replace(R.id.display_rock_container, RockFragment.newInstance(it, term))
                 .commit()
         }
-
-
-
     }
 
 }
