@@ -40,10 +40,14 @@
 
 <androidx.viewpager.widget.ViewPager
     android:id="@+id/vp_pager"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:minHeight="100dp"
+    android:background="@color/teal_700"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintBottom_toBottomOf="@id/tab_layout_items"/>
+    app:layout_constraintTop_toBottomOf="@id/tab_layout_items"
+    android:visibility="gone">
+</androidx.viewpager.widget.ViewPager>
 
 
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -51,13 +55,15 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/tab_layout_items">
+    app:layout_constraintTop_toBottomOf="@+id/vp_pager"
+    android:layout_marginTop="10dp">
         <FrameLayout
             android:id="@+id/display_rock_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tab_layout_items"
+            app:layout_constraintTop_toBottomOf="@+id/vp_pager"
+            android:layout_marginTop="10dp"
             android:visibility="visible"/>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

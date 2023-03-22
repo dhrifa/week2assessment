@@ -2,39 +2,45 @@ package com.example.week2assessment.view.adapter
 
 import android.graphics.Color
 import android.media.AudioAttributes
-import android.media.AudioManager
 import android.media.MediaPlayer
-import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.week2assessment.databinding.ArtistItemLayoutBinding
 import com.example.week2assessment.model.remote.ArtistItem
-import com.example.week2assessment.model.remote.ArtistResponse
 import com.squareup.picasso3.Picasso
+
 
 private const val TAG = "ArtistAdapter"
 var isPlaying: Boolean = false// true
 var isPreviousPlaying: String = ""
 var mediaPlayer: MediaPlayer? = null
 
-class ArtistAdapter(private var dataSet: /*ArtistResponse*/ List<ArtistItem>) :
-    RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>() {
+class ArtistAdapter(
+    private var dataSet: List<ArtistItem>,
+    private val openDetails: (( ArtistItem) -> Unit)? = null
+) :
+   RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>() {
 
 
-    class ArtistViewHolder(private var binding: ArtistItemLayoutBinding) :
+     class ArtistViewHolder(private var binding:  ArtistItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(currentArtist: ArtistItem) {
+        fun bind(currentArtist: ArtistItem,position: Int ,openDetails: ((ArtistItem) -> Unit)) {
             binding.root.setOnClickListener {
-                //play music
-                playMusic(currentArtist.previewUrl)
-                Log.d(TAG, "bind: ${currentArtist.previewUrl}")
+               // this.bindingAdapterPosition
+                Log.d(TAG, "holder.adapterPosition : $position")
+                openDetails(currentArtist)
             }
-
+            //region method1
+//            binding.root.setOnClickListener {
+//                //play music
+//                playMusic(currentArtist.previewUrl)
+//                Log.d(TAG, "bind: ${currentArtist.previewUrl}")
+//            }
+            //endregion
             binding.tvCollectionArtist.text = currentArtist.collectionName
             binding.tvNameArtist.text = currentArtist.artistName
             binding.tvPrice.text = "${currentArtist.trackPrice} USD"
@@ -42,11 +48,17 @@ class ArtistAdapter(private var dataSet: /*ArtistResponse*/ List<ArtistItem>) :
                 .build()
                 .load(currentArtist.artworkUrl60)
                 .into(binding.imageViewArtist)
-
-            binding.ibPlayMusic.setOnClickListener {
-                isPlaying = false
-                stopMusic()
-            }
+//region tto finish
+//            binding.ibStopMusic.setOnClickListener {
+//                isPlaying = false
+//                stopMusic()
+//            }
+//            binding.ibPlayMusic.setOnClickListener {
+//                if (isPlaying) stopMusic()
+//                isPlaying = true
+//                startMediaPlayer(currentArtist.previewUrl)
+//            }
+            //endregion
         }
 
 
@@ -67,12 +79,14 @@ class ArtistAdapter(private var dataSet: /*ArtistResponse*/ List<ArtistItem>) :
         }
 
         private fun stopMusic() {
+            binding.ibStopMusic.visibility = View.GONE
             binding.ibPlayMusic.visibility = View.GONE
             binding.root.setBackgroundColor(Color.WHITE)
             mediaPlayer?.release()
         }
 
         private fun startMediaPlayer(previewUrl: String) {
+            binding.ibStopMusic.visibility = View.VISIBLE
             binding.ibPlayMusic.visibility = View.VISIBLE
             binding.root.setBackgroundColor(Color.GREEN)
             isPlaying = true
@@ -90,6 +104,8 @@ class ArtistAdapter(private var dataSet: /*ArtistResponse*/ List<ArtistItem>) :
                 start()
             }
         }
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistViewHolder {
@@ -101,14 +117,35 @@ class ArtistAdapter(private var dataSet: /*ArtistResponse*/ List<ArtistItem>) :
         )
     }
 
-    override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
-        holder.bind(dataSet[position])
+     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
+        //   (holder as ArtistViewHolder).bind(dataSet[position], openDetails!!)
+
+            openDetails?.let {
+                holder.bind(dataSet[position],holder.adapterPosition, openDetails)
+        }
+
+        //region tto finish
+//        binding.ibStopMusic.setOnClickListener {
+//            isPlaying = false
+//            stopMusic()
+//        }
+//        binding.ibPlayMusic.setOnClickListener {
+//            if (isPlaying) stopMusic()
+//            isPlaying = true
+//            startMediaPlayer(currentArtist.previewUrl)
+//        }
+        //endregion
     }
 
     override fun getItemCount(): Int {
         return dataSet.size
     }
+
+
+
 }
+
+
 //ca marche mais plusier a la fois
 //            var mediaPlayer: MediaPlayer = MediaPlayer().also {
 //                it.setAudioStreamType(AudioManager.STREAM_MUSIC)

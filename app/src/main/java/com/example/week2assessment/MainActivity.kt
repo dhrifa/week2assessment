@@ -1,15 +1,21 @@
 package com.example.week2assessment
 
+import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.fragment.app.commit
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import com.example.week2assessment.model.remote.ArtistNetwork
 import com.example.week2assessment.model.remote.ArtistResponse
 //import com.example.week2assessment.view.ClassicFragment
 import com.example.week2assessment.view.ISearchArtist
+import com.example.week2assessment.view.PagerAdapter
 //import com.example.week2assessment.view.PopFragment
 import com.example.week2assessment.view.RockFragment
 import com.google.android.material.tabs.TabLayout
@@ -19,11 +25,15 @@ import retrofit2.Callback
 import retrofit2.Response
 
 private const val TAG = "MainActivity"
+const val TERM = "TERM"
 
 class MainActivity : AppCompatActivity(), ISearchArtist {
+    val viewModel by viewModels<ArtistViewModel>()
+
     private lateinit var tabLayoutItems: TabLayout
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var viewPager: ViewPager
+
 
     private var termRock = "rock"
     private var termClassic = "classick"
@@ -31,10 +41,16 @@ class MainActivity : AppCompatActivity(), ISearchArtist {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+       savedInstanceState?.putString(TERM, termRock)
         setContentView(R.layout.activity_main)
         initView()
-        search(termRock)
+        /*viewModel.*/search(termRock)
         Log.d(this.localClassName, "onCreate: ")
+//        viewModel.artistResult.observe(this) {
+//            Log.d(TAG, "onCreateView: $it")
+//            displayFragment(it)
+//        }
+
     }
 
 
@@ -47,11 +63,10 @@ class MainActivity : AppCompatActivity(), ISearchArtist {
             getMusic(tabLayoutItems.selectedTabPosition)
             refreshLayout.isRefreshing = false
         }
-        //setupViewPager(viewPager)
 
         // If we dont use setupWithViewPager() method then
         // tabs are not used or shown when activity opened
-        tabLayoutItems.setupWithViewPager(viewPager)
+//        tabLayoutItems.setupWithViewPager(viewPager)
 
         tabLayoutItems.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: Tab?) {
@@ -60,28 +75,35 @@ class MainActivity : AppCompatActivity(), ISearchArtist {
             }
 
             override fun onTabUnselected(tab: Tab?) {}
-
             override fun onTabReselected(tab: Tab?) {}
         })
-
     }
 
     private fun getMusic(tab: Int?) {
         when (tab) {
             0 -> {
-                search(termRock)
+                /*viewModel.*/search(termRock)
+                //region to chech
+//                     supportFragmentManager.beginTransaction()
+//                .replace(R.id.vp_pager, RockFragment())
+////                    .replace(R.id.display_rock_container, RockFragment())
+//                    .commit()
+//
+//                viewPager.adapter  = PagerAdapter(this, supportFragmentManager,body,3)
                 //Toast.makeText(tabLayoutItems.context, tab.text, Toast.LENGTH_SHORT).show()
+                //endregion
             }
             1 -> {
-                search(termClassic)
+                /*viewModel.*/search(termClassic)
             }
             2 -> {
-                search(termPop)
+                /*viewModel.*/search(termPop)
             }
         }
     }
 
     override fun search(term: String) {
+//        viewModel.search(term)
         ArtistNetwork.artistService.getArtistsByFilter(term)//termRock, "music", "song", 50)
             .enqueue(
                 object : Callback<ArtistResponse> {
@@ -92,7 +114,7 @@ class MainActivity : AppCompatActivity(), ISearchArtist {
                         if (response.isSuccessful) {
                             val body = response.body()
                             Log.d(TAG, "onResponse: $body")
-                            createDisplayResponse(body, term)
+                            displayFragment(body, term)
                         } else {
                             Log.d(TAG, "fail: $response")
                         }
@@ -102,7 +124,7 @@ class MainActivity : AppCompatActivity(), ISearchArtist {
                         Log.d(TAG, "onFailure: $t")
                         Toast.makeText(
                             this@MainActivity,
-                            "${t.localizedMessage}",
+                            t.localizedMessage,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -110,13 +132,16 @@ class MainActivity : AppCompatActivity(), ISearchArtist {
             )
     }
 
-    private fun createDisplayResponse(body: ArtistResponse?, term: String) {
+    private fun displayFragment(body: ArtistResponse?, term: String) {//
         body?.let {
-            supportFragmentManager.beginTransaction()
-//                .replace(R.id.vp_pager, RockFragment.newInstance(it,term))
-                .replace(R.id.display_rock_container, RockFragment.newInstance(it, term))
-                .commit()
+            supportFragmentManager.commit {
+                replace(R.id.display_rock_container, RockFragment.newInstance(it, term))
+            }
         }
+
+////                .replace(R.id.vp_pager, RockFragment.newInstance(it, term))
+////            launchesListRv.layoutManager = LinearLayoutManager(context)
+//           // viewPager.adapter  = PagerAdapter(this, supportFragmentManager,body,3)
     }
 
 }
